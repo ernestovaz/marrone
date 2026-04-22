@@ -68,7 +68,7 @@ library
     -- other-extensions:
 
     -- Other library packages from which modules are imported.
-    build-depends:    base ^>=4.21.0.0
+    build-depends:    base ^>=4.22.0.0
 
     -- Directories containing source files.
     hs-source-dirs:   src
@@ -91,8 +91,9 @@ executable marrone
 
     -- Other library packages from which modules are imported.
     build-depends:
-        base ^>=4.21.0.0,
+        base ^>=4.22.0.0,
         optparse-applicative,
+        http-client,
         marrone
 
     -- Directories containing source files.
@@ -125,5 +126,5 @@ test-suite marrone-test
 
     -- Test dependencies.
     build-depends:
-        base ^>=4.21.0.0,
+        base ^>=4.22.0.0,
         marrone

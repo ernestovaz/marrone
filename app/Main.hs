@@ -1,4 +1,4 @@
-module Main where
+module Main (main) where
 
 import Options.Applicative
 
@@ -20,15 +20,16 @@ parser = Options
      <> help "Input text" )
 
 main :: IO ()
-main = scream =<< execParser opts
+main = app =<< execParser opts
   where
     opts = info (parser <**> helper)
       ( fullDesc
      <> progDesc "Scream the input text"
      <> header "scream - a simple command-line tool" )
 
-scream :: Options -> IO ()
-scream opts = do
+
+app :: Options -> IO ()
+app opts = do
   let message = if verbose opts
                 then "Screaming: " ++ input opts ++ "!!!"
                 else input opts ++ "!!!"
