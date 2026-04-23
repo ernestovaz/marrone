@@ -95,6 +95,7 @@ executable marrone
         optparse-applicative,
         http-client,
         http-client-tls,
+        bytestring,
         marrone
 
     -- Directories containing source files.
