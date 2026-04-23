@@ -94,6 +94,7 @@ executable marrone
         base ^>=4.22.0.0,
         optparse-applicative,
         http-client,
+        http-client-tls,
         marrone
 
     -- Directories containing source files.

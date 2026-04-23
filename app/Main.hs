@@ -1,10 +1,12 @@
 module Main (main) where
 
 import Options.Applicative
+import Network.HTTP.Client
+import Network.HTTP.Client.TLS
 
 data Options = Options
   { verbose :: Bool
-  , input   :: String
+  , url   :: String
   }
 
 parser :: Parser Options
@@ -13,24 +15,26 @@ parser = Options
       ( long "verbose"
      <> short 'v'
      <> help "Enable verbose mode" )
-  <*> strOption
-      ( long "input"
-     <> short 'i'
-     <> metavar "TEXT"
-     <> help "Input text" )
+  <*> strArgument
+      ( metavar "URL"
+     <> help "url to use" )
 
 main :: IO ()
-main = app =<< execParser opts
+main = do 
+  opts <- execParser parserInfo
+  app opts
   where
-    opts = info (parser <**> helper)
+    parserInfo = info (parser <**> helper)
       ( fullDesc
-     <> progDesc "Scream the input text"
-     <> header "scream - a simple command-line tool" )
+     <> progDesc "send GET to the provided url"
+     <> header "marrone - a simple API tester" )
 
 
 app :: Options -> IO ()
-app opts = do
-  let message = if verbose opts
-                then "Screaming: " ++ input opts ++ "!!!"
-                else input opts ++ "!!!"
-  putStrLn message
+app args = do
+  manager <- newManager tlsManagerSettings
+  request <- parseRequest $ url args
+  response <- httpLbs request manager
+
+  putStrLn $ "The status code was: " ++ show (responseStatus response)
+  print $ responseBody response
